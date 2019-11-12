@@ -1,0 +1,165 @@
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: 'https://virtserver.swaggerhub.com/TangoIT/receipts/1.0.0'
+info:
+  description: To Do List functionality
+  version: "1.0.0"
+  title: To Do List
+  contact:
+    email: nepal_anup@hotmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /toDoList:
+    post:
+      tags:
+      - "task"
+      summary: "Add a new Task"
+      description: ""
+      operationId: "addTask"
+      requestBody:
+        description: "Property information to be created or updated (complete replace)"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/taskRequest'
+      responses:
+        405:
+          description: "Invalid input"
+          
+  /toDoList/{taskId}:
+    parameters:
+      - in: "path"
+        name: "taskId"
+        required: true
+        schema:
+          type: integer
+    put:
+      tags:
+      - "task"
+      summary: "Update an existing task"
+      description: ""
+      operationId: "updateTask"
+      requestBody:
+        description: "Property information to be created or updated (complete replace)"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/taskRequest'
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Task not found"
+        405:
+          description: "Validation exception"
+    get:
+      tags:
+      - "task"
+      summary: "Single task information"
+      operationId: "readSingleTask"
+      responses:
+        200:
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/taskItem'
+    delete:
+      tags:
+      - "task"
+      summary: "Task Information delete"
+      operationId: "deleteTask"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Unable to Delete"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /toDoList/findByStatus/{status}:
+    get: 
+      tags:
+      - "task"
+      summary: search task by status and return task list
+      operationId: "readTaskByStatus"
+      description: |
+        Searches the Task list by status and returns the matching
+      parameters:
+        - name: status
+          in: path
+          description: Task Status
+          example: "Pending"
+          required: true
+          schema:
+            type: string
+            format: string
+  
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/taskItem'
+        '400':
+          description: bad input parameter
+          
+  
+components:
+  parameters:
+    task_id:
+      in: path
+      name: task_id
+      required: true
+      schema:
+        type: integer
+  schemas:
+    taskItem:
+      type: object
+      properties:
+        id:
+          description: Task ID
+          type: integer
+          example: 1
+        details:
+          description: Details of the Task
+          type: string
+          example: "This is a sample task"
+        status:
+          description: Status of the Task
+          type: string
+          example: "Pending"
+    taskRequest:
+      type: "object"
+      required:
+      - "details"
+      - "status"
+      properties:
+        details:
+          type: "string"
+          example: "Sample Task 1"
+        status:
+          type: "string"
+          description: "Status of the Task"
+          enum:
+          - "Open"
+          - "Completed"
+    Error:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+          

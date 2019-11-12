@@ -1,0 +1,16 @@
+{
+  "name": "sleevesup",
+  "version": "1.0.0",
+  "description": "Task API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mysql": "^2.17.1",
+    "swagger-routes-express": "^2.0.0"
+  }
+}
