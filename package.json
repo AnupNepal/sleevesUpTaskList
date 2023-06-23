@@ -11,6 +11,6 @@
   "dependencies": {
     "chai": "^4.2.0",
     "mysql": "^2.17.1",
-    "swagger-routes-express": "^2.0.0"
+    "swagger-routes-express": "^3.3.2"
   }
 }
